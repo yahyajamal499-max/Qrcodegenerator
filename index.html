@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QR Studio - Generator & Scanner</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- QR Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- QR Scanner -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <div class="logo">
+            <div class="logo-icon">QR</div>
+            <div>
+                <h2>QR Studio</h2>
+                <span>Generate • Scan • Share</span>
+            </div>
+        </div>
+
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            Ready
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="hero-text">
+                <span class="badge">⚡ Fast & Simple</span>
+
+                <h1>
+                    Your all-in-one
+                    <span>QR toolkit.</span>
+                </h1>
+
+                <p>
+                    Generate beautiful QR codes and scan any QR code
+                    directly from your browser.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- TABS -->
+        <div class="tabs">
+
+            <button class="tab active" id="generatorTab">
+                <span>▣</span>
+                Generator
+            </button>
+
+            <button class="tab" id="scannerTab">
+                <span>⌁</span>
+                Scanner
+            </button>
+
+        </div>
+
+
+        <!-- ================= GENERATOR ================= -->
+
+        <section id="generatorSection" class="app-section">
+
+            <div class="grid">
+
+                <!-- LEFT PANEL -->
+
+                <div class="card generator-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h2>Create QR Code</h2>
+                            <p>Choose a type and enter your information.</p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- QR TYPE -->
+
+                    <label class="input-label">QR Type</label>
+
+                    <div class="type-grid">
+
+                        <button class="type-btn active" data-type="text">
+                            <span>📝</span>
+                            <small>Text</small>
+                        </button>
+
+                        <button class="type-btn" data-type="url">
+                            <span>🔗</span>
+                            <small>URL</small>
+                        </button>
+
+                        <button class="type-btn" data-type="email">
+                            <span>✉️</span>
+                            <small>Email</small>
+                        </button>
+
+                        <button class="type-btn" data-type="phone">
+                            <span>📞</span>
+                            <small>Phone</small>
+                        </button>
+
+                        <button class="type-btn" data-type="wifi">
+                            <span>📶</span>
+                            <small>Wi-Fi</small>
+                        </button>
+
+                        <button class="type-btn" data-type="vcard">
+                            <span>👤</span>
+                            <small>Contact</small>
+                        </button>
+
+                    </div>
+
+
+                    <!-- DYNAMIC FORM -->
+
+                    <div id="formContainer"></div>
+
+
+                    <!-- GENERATE BUTTON -->
+
+                    <button id="generateBtn" class="primary-btn">
+                        Generate QR Code
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+
+                <!-- RIGHT PANEL -->
+
+                <div class="card preview-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h2>Your QR Code</h2>
+                            <p>Preview and download your QR code.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="qr-container">
+
+                        <div id="qrcode"></div>
+
+                        <div id="emptyState" class="empty-state">
+                            <div class="empty-icon">▣</div>
+                            <p>Your QR code will appear here.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="qr-actions">
+
+                        <button id="downloadBtn" class="secondary-btn" disabled>
+                            ⬇ Download PNG
+                        </button>
+
+                        <button id="copyBtn" class="secondary-btn" disabled>
+                            📋 Copy
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SCANNER ================= -->
+
+        <section id="scannerSection" class="app-section hidden">
+
+            <div class="scanner-grid">
+
+                <!-- CAMERA -->
+
+                <div class="card scanner-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h2>Scan QR Code</h2>
+                            <p>Point your camera at a QR code.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div id="reader"></div>
+
+
+                    <button id="startScannerBtn" class="primary-btn">
+                        📷 Start Camera
+                    </button>
+
+                </div>
+
+
+                <!-- RESULT -->
+
+                <div class="card result-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h2>Scan Result</h2>
+                            <p>Information detected from the QR code.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div id="scanEmpty" class="scan-empty">
+
+                        <div class="result-icon">⌁</div>
+
+                        <h3>No QR code scanned</h3>
+
+                        <p>
+                            Scan a QR code to see its contents here.
+                        </p>
+
+                    </div>
+
+
+                    <div id="scanResult" class="scan-result hidden">
+
+                        <label>Detected Content</label>
+
+                        <div id="resultText" class="result-box"></div>
+
+                        <div class="result-actions">
+
+                            <button id="copyResultBtn" class="secondary-btn">
+                                📋 Copy
+                            </button>
+
+                            <button id="openResultBtn" class="primary-btn small-btn">
+                                🔗 Open
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE SCANNER -->
+
+            <div class="card upload-card">
+
+                <div>
+
+                    <h3>Scan from an image</h3>
+
+                    <p>
+                        Upload a QR code image if you don't want to use the camera.
+                    </p>
+
+                </div>
+
+                <label class="upload-btn">
+
+                    📁 Choose Image
+
+                    <input
+                        type="file"
+                        id="qrImageInput"
+                        accept="image/*"
+                        hidden
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            QR Studio © 2026 · Generate and scan QR codes easily.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
